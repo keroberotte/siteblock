@@ -157,6 +157,12 @@ async function init() {
   const arrayWin = await chrome.windows.getAll( { populate: true });
   await processWindows(arrayWin);
 
+  await chrome.alarms.onAlarm.addListener(async (alarm) => {
+    if (alarm.name == "checkBlockedTabs") {
+      await checkBlockedTabs();
+    }
+  });
+
   const alarm = await chrome.alarms.get("checkBlockedTabs");
   if (!alarm) {
     await chrome.alarms.create("checkBlockedTabs", {
@@ -164,11 +170,5 @@ async function init() {
     });
   }
 }
-
-chrome.alarms.onAlarm.addListener(async (alarm) => {
-  if (alarm.name == "checkBlockedTabs") {
-    await checkBlockedTabs();
-  }
-});
 
 init();

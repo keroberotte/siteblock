@@ -55,7 +55,7 @@ csapuntz.siteblock = (function () {
 
             // If we're in an existing interval, count it
             var time_adj = 0;
-            if (last_start != -1 && time > last_start && time < last_start + 120)
+            if (last_start != -1 && time > last_start)
                time_adj = (time - last_start);
 
             return (time_used + time_adj);
@@ -76,9 +76,7 @@ csapuntz.siteblock = (function () {
             updateTimeUsed: function () {
                if (last_start != -1) {
                   var end = time_cb();
-                  if (end > last_start + 120) {
-                     // Don't count the time
-                  } else if (end > last_start) {
+                  if (end > last_start) {
                      time_used += (end - last_start);
                   }
 
