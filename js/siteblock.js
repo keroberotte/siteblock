@@ -40,11 +40,14 @@ csapuntz.siteblock = (function () {
 
          var last_start = -1;
          var last_end = -1;
+         var last_reset = -1;
 
          var check_reset = function (now) {
-            if (last_end != -1 &&
-               (now - last_end) >= (time_period - time_allowed)) {
+            //if (last_end != -1 &&
+            //   (now - last_end) >= (time_period - time_allowed)) {
+            if((now - last_reset) >= 24 * 3600){
                time_used = 0;
+               last_reset = now;
             }
          }
 
@@ -105,6 +108,7 @@ csapuntz.siteblock = (function () {
                   "time_used": time_used,
                   "last_start": last_start,
                   "last_end": last_end,
+                  "last_reset": last_reset,
                };
             },
 
@@ -112,6 +116,7 @@ csapuntz.siteblock = (function () {
                time_used = st.time_used;
                last_start = ("last_start" in st) ? st.last_start : -1;
                last_end = st.last_end;
+               last_reset = st.last_reset;
             },
          };
 
